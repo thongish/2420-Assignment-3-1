@@ -6,7 +6,7 @@ if [[ ! $EUID == 0 ]]; then
 fi
 
 # install nginx and ufw and their dependencies 
-# pacman -S --noconfirm nginx ufw
+pacman -S --noconfirm nginx ufw
 
 # NOTE: Task 1 -------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ fi
 # this user is meant to carry out, it is the only user that can perform those 
 # tasks other than the root user. 
 # Additionally, users without root privilege cannot log into the system user.
-# sudo useradd --system -d /var/lib/webgen -s /usr/bin/nologin -m webgen
+sudo useradd --system -d /var/lib/webgen -s /usr/bin/nologin -m webgen
 
 
 # Create bin and HTML directories inside webgen home folder
@@ -92,4 +92,22 @@ systemctl enable --now nginx
 
 # NOTE: Task 4 -------------------------------------------------------------------------
 
+# Start and enable ufw service
+systemctl enable --now ufw.service
 
+# Allow SSH connections 
+sudo ufw allow ssh
+
+# Limit SSH connections
+# This denies an incoming address if they attempt to connect more than 6 times within
+# 30 seconds
+sudo ufw limit ssh
+
+# Allow http so that http requests from our nginx web server can go through
+sudo ufw allow http
+
+# Finally, enable ufw
+# --force is used here to skip the y/n confirmation prompt
+# To check whether ufw is active or not you can use the command:
+# sudo ufw status verbose
+sudo ufw --force enable
