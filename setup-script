@@ -26,3 +26,24 @@ chown -R webgen:webgen /var/lib/webgen
 
 # Copy generate_index script to /var/lib/webgen/bin
 cp ./generate_index /var/lib/webgen/bin
+
+# Change ownership of generate_index
+chown webgen:webgen /var/lib/webgen/bin/generate_index
+
+# Copy systemd unit files to /etc/systemd/system/
+cp ./generate-index.service /etc/systemd/system/
+cp ./generate-index.timer /etc/systemd/system/
+
+# Start generate-index.service to create an initial index.html
+# To check whether this service was started correctly, you can run the command:
+# systemctl status generate-index.service
+# It will show you a information about the service, whether it has been loaded or active
+# and a log that will tell you whether the service ran successfully
+systemctl start generate-index.service
+
+# Start and enable generate-index.timer to make it start itself on reboot
+# To check whether this service was started correctly, you can run the command:
+# systemctl status generate-index.timer
+# It will show you a information about the service, whether it has been loaded and enabled/disabled or active
+# and a log that will tell you whether the timer ran successfully
+systemctl enable --now generate-index.timer
