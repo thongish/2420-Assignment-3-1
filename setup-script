@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ ! $EUID == 0 ]]; then
+    echo "ERROR: You must run this script with sudo privilege."
+    exit 1
+fi
+
+# install nginx and its dependencies 
+# pacman -S nginx
+
+# Create system user "webgen"
+# System users are useful for adding an extra layer of security
+# By creating this webgen system user, we can essentially ensure that whatever task
+# this user is meant to carry out, it is the only user that can perform those 
+# tasks other than the root user. 
+# Additionally, users without root privilege cannot log into the system user.
+# sudo useradd --system -d /var/lib/webgen -s /usr/bin/nologin -m webgen
+
+
+# Create bin and HTML directories inside webgen home folder
+mkdir /var/lib/webgen/bin
+mkdir /var/lib/webgen/HTML
+
+# Change ownership of bin and HTML directories created above
+chown -R webgen:webgen /var/lib/webgen
+
+# Copy generate_index script to /var/lib/webgen/bin
+cp ./generate_index /var/lib/webgen/bin
