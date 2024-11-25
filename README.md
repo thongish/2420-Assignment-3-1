@@ -1,6 +1,6 @@
 # 2420-Assignment-3-1
 
-# Setting up an Nginx web server on an Arch Linux dropet
+# Setting up an Nginx web server on an Arch Linux droplet
 
 1. First thing you need to do is ensure your Linux system is up-to-date:
 ```
@@ -23,4 +23,5 @@ sudo ./setup-script
 ```
 
 5. Check that everything worked by entering your droplet's IP address in your web browser. You should see something like this:
+
 ![Screenshot of working Nginx web server](./assets/success.png)
